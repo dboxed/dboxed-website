@@ -2,8 +2,6 @@
 title: Introduction
 type: docs
 weight: 10
-prev: docs/get-started/
-next: docs/get-started/installation
 ---
 
 ### What is Dboxed?
@@ -43,9 +41,9 @@ As an example, we use P2P VPN solutions like [Netbird](https://netbird.io/) to o
 solutions are great at detecting local network connectivity, meaning that being in the same AWS-VPC will cause a
 significant performance boost and reduce traffic cost, while not getting strictly dependent on the existence of the VPC.
 
-Dboxed also implements a cloud-agnostic volumes implementation that uses S3 for periodic and controlled incremental backups.
-When a workload needs to move to another server, a final backup is performed, allowing the new server perform a full
+Dboxed also implements cloud-agnostic volumes that use S3 for periodic incremental backups.
+When a workload needs to move to another server, a final backup is performed, allowing the new server to perform a full
 restore before re-starting the workload.
 
-Later versions of dboxed will use AWS EBS volumes or Hetzner Volumes to allow faster migration between servers, again
+Future versions of dboxed will use AWS EBS volumes or Hetzner Volumes to allow faster migration between servers, again
 without getting dependent on them.

@@ -1,7 +1,7 @@
 ---
 title: Introduction
 type: docs
-#weight: 10
+weight: 10
 prev: docs/get-started/
 next: docs/get-started/installation
 ---

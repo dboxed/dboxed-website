@@ -1,0 +1,28 @@
+{
+  "name": "dboxed-website",
+  "version": "1.0.0",
+  "description": "Dboxed landing page and docs.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind"
+  },
+  "repository": {
+    "type": "module",
+    "url": "https://github.com/dboxed/dboxed-website"
+  },
+  "dependencies": {
+    "next": "^15.5.4",
+    "nextra": "^4.6.0",
+    "nextra-theme-docs": "^4.6.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.11",
+    "@types/react": "19.0.14",
+    "pagefind": "^1.4.0",
+    "typescript": "^5.9.3"
+  }
+}

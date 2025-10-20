@@ -1,10 +1,4 @@
-.idea
-
-# Hugo output
-public/
-resources/
-.hugo_build.lock
-_vendor
-
-# Editor
-.vscode/
+.next
+node_modules
+/.idea
+public/_pagefind

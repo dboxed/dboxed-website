@@ -4,7 +4,7 @@ type: docs
 weight: 30
 ---
 
-This is a short quick-start that should allow you to get started very quickly.
+Dboxed can be used from the Web UI or from purely from the CLI. This quick start explains how to use it from the Web UI.
 
 ### Login
 ### Create box

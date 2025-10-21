@@ -11,6 +11,9 @@ importers:
       '@netlify/plugin-nextjs':
         specifier: ^5.14.0
         version: 5.14.0
+      '@socialgouv/matomo-next':
+        specifier: ^1.10.0
+        version: 1.10.0(next@15.5.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0))
       '@tailwindcss/postcss':
         specifier: ^4.1.14
         version: 4.1.14
@@ -532,6 +535,11 @@ packages:
 
   '@shikijs/vscode-textmate@10.0.2':
     resolution: {integrity: sha512-83yeghZ2xxin3Nj8z1NMd/NCuca+gsYXswywDy5bHvwlWL8tpTQmzGeUuHd9FC3E/SBEMvzJRwWEOz5gGes9Qg==}
+
+  '@socialgouv/matomo-next@1.10.0':
+    resolution: {integrity: sha512-Cp4EMnpzPO2JAinW56QrT6t+AJnM7pxUS3RUmfBWs9SIxHsqxivdmb+wSS8bUd/lkUXtLgBVw9dGOaK0EMwSEg==}
+    peerDependencies:
+      next: '>= 9.5.5'
 
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
@@ -2660,6 +2668,10 @@ snapshots:
       '@types/hast': 3.0.4
 
   '@shikijs/vscode-textmate@10.0.2': {}
+
+  '@socialgouv/matomo-next@1.10.0(next@15.5.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0))':
+    dependencies:
+      next: 15.5.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
 
   '@swc/helpers@0.5.15':
     dependencies:

@@ -4,6 +4,8 @@ import {getPageMap} from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 
 import "./globals.css"
+import { Suspense } from "react";
+import { MatomoAnalytics } from "@/app/mtmo";
 
 export const metadata = {
     icons: {
@@ -70,6 +72,9 @@ export default async function RootLayout({children}) {
         >
             {children}
         </Layout>
+        <Suspense fallback={null}>
+          <MatomoAnalytics />
+        </Suspense>
         </body>
         </html>
     )

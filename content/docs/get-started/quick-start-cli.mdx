@@ -2,17 +2,140 @@
 title: Quick Start (CLI)
 ---
 
+import {Callout} from "nextra/components";
+
 # Quick Start (CLI)
 
 Dboxed can be used from the Web UI or from purely from the CLI. This quick start explains how to use it from the CLI.
 
 Please [install](installation) dboxed first, as you will need the dboxed binary to continue.
 
+## Cloud vs. Self Hosted
+
 This guide assumes that you want to use the cloud version of Dboxed. If you want to use a self-hosted instance, follow
-the [self hosting](/self-hosting) instructions first.
+the [self hosting](/docs/self-hosting) instructions first.
 
-### Login
+## Login
 
+You will first need to login to dboxed, simply call the login sub-command:
 
-### Create box
-### Run box
+```shell
+dboxed login --api-url=https://api.test.dboxed.io
+```
+
+Then follow the instructions printed on the console.
+
+You might notice the `--api-url` given to the command, which provides the test api URL of the Dboxed Cloud. This will
+later be removed when the production instance of Dboxed Cloud becomes available.
+
+If you want to use your self-hosted Dboxed instance, then you will need to provide the URL to your private instance
+instead.
+
+## Create box
+
+A [box](/docs/concepts/boxes) is what defines the workloads that you want to run on a machine. A box can be part of
+a [dboxed network](/docs/concepts/networks), but it doesn't have to. For the simplicity of this guide, we will start
+without a network. A box might also have [dboxed volumes](/docs/concepts/volumes) attached, which we will also leave
+out for now.
+
+The actual workloads inside a box are defined via [Docker Compose](https://docs.docker.com/compose/) files. First, create
+this file:
+
+```yaml filename="docker-compose.yaml"
+name: quickstart
+services:
+  whoami:
+    image: traefik/whoami
+    command:
+      - --name=iamdboxed
+  localtunnel:
+    image: node:25-alpine
+    entrypoint: ["sh", "-c"]
+    command:
+      - |
+        apk add curl socat
+        npm install -g localtunnel
+        TUNNEL_PASSWORD=$(curl https://loca.lt/mytunnelpassword)
+        echo "Your tunnel password is: $$TUNNEL_PASSWORD"
+        socat TCP-LISTEN:8080,reuseaddr,fork TCP:whoami:80 &
+        lt --port 8080
+  hello-log:
+    image: alpine
+    entrypoint: ["sh", "-c"]
+    command:
+      - |
+        while true; do echo "Hello, current time is $(date)"; sleep 5; done
+```
+
+Now create [box](/docs/concepts/boxes) that will later be run on your server. Replace the docker-compose.yaml path appropriately.
+
+```shell
+dboxed box create --name quickstart --compose-file quickstart=/path/to/docker-compose.yaml
+```
+
+## Create a box token
+
+To run the box, you will need a token. Create it now:
+
+```shell
+dboxed token create quickstart --box=quickstart
+```
+
+This command will create and print the secret token. You will need this token in the next section.
+
+## Get a machine
+
+A [machine](/docs/concepts/machine) is anything that runs a recent Linux Kernel with a working internet connection.
+This means, you could now re-use one of your existing servers (bare-metal, VPC, cloud servers, Raspberry Pi, ...)
+or create a server in one of your preferred cloud providers. If you have such a machine, or can provision one, connect
+to it via ssh and continue the quick-start guide on it.
+
+For testing purposes, it's also absolutely fine to run a box inside a local Docker container. For this, run:
+
+```shell
+docker run --rm -ti --privileged alpine sh
+```
+
+Then continue working inside the freshly started shell of this container.
+
+<Callout type="info">
+    Future versions of dboxed will allow you to create machines from the CLI and/or from the Web UI. We will support
+    all popular cloud/VPS providers, including cheap providers like Hetzner.
+</Callout>
+
+## Install dboxed on the machine
+
+The chosen machine will need to have the dboxed binary installed as well.
+Follow the [installation](installation) instructions while connected to the machine.
+
+## Run the box
+
+Now it's time to actually run the box on the chosen machine. Execute the following command on the machine, while
+replacing the `<box-token>` placeholder with the token you generate before.
+
+```shell
+dboxed sandbox run quickstart --api-url=https://api.test.dboxed.io --api-token=<box-token>
+```
+
+This will now start a [sandbox](/docs/concepts/sandbox) that executes the docker compose workloads. The sandbox
+contains everything that is needed to run the workloads, including Docker itself.
+
+## Access the box
+
+The example compose project from above starts three containers. The first one is the `whoami` container, which simply
+serves http server that just returns some information about itself when it receives a request. As this runs inside the
+sandbox, it is not accessible from the outside world.
+
+To make it reachable, we also have the `localtunnel` container which simply runs [localtunnel](https://localtunnel.me),
+allowing you to access the `whoami` container from the outside. To find the URL and password, you need to look into the
+logs of the `localtunnel` container.
+
+Run the following command from your computer (not inside the machine where the box runs on).
+
+```shell
+dboxed box logs quickstart
+```
+
+It will show you a list of log files available, select the `quickstart-localtunnel-1` container log and open the URL
+shown in the logs. It should look like `https://random-sub-domain.loca.lt`. Open this URL and type in the password that
+is also shown in the log.

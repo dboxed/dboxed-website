@@ -1,3 +1,5 @@
 export default {
-  "get-started": {}
+  "get-started": {},
+  "dboxed-cloud": {},
+  "self-hosting": {},
 }

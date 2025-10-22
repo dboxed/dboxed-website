@@ -1,0 +1,45 @@
+import {Callout} from "nextra/components";
+
+# Machines
+
+A machine is a server that is able to run [boxes](boxes). Dboxed tries very hard to keep the requirements for such
+servers as low as possible, allowing you to use any kind of server. The only requirements dboxed has on a server is
+a recent Linux Kernel, internet and root access.
+
+Here are some examples of server types you may use:
+1. [Hetzner Cloud Servers](https://www.hetzner.com/de/cloud/)
+2. [Hetzner Dedicated Server](https://www.hetzner.com/dedicated-rootserver/)
+3. [AWS Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html)
+4. All other cloud providers that offer VPSs
+5. Servers from your own your datacenter
+6. Your single Server(rack) in your company office
+7. Your Raspbery Pi
+8. Inside Docker Containers (including on your Mac, even though it will be slow)
+
+## Networking
+
+Dboxed only requires an outbound internet connection for its basic functionality. It does not require you to have
+private networking (e.g. [AWS VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) or [Hetznet Cloud Network](https://docs.hetzner.com/networking/networks/overview/))
+to work, as it uses P2P VPN solutions (like [Netbird](https://netbird.io)) for its private network abstraction.
+
+At the same time, it will leverage such private networks when detected to optimize for speed and reduce traffic costs.
+
+See [networks](networks) for more details.
+
+## Persistence
+
+Dboxed uses [dboxed volumes](volumes) for persistent storage. These volumes do not require support from the
+underlying cloud provider (if you're even running on a cloud server) and work on all machine types.
+
+See [volumes](volumes) for more details.
+
+## Machine Providers
+
+<Callout type="info">
+    Machine Providers are not fully implemented yet. Stay tuned for updates.
+</Callout>
+
+Dboxed allows you to dynamically create machines from the dboxed CLI and the Web UI. This means that you do not have
+to provide machines by yourself, but instead can rely on dboxed creating these fully automatically for you.
+
+Currently, AWS and Hetzner are supported. Future versions of dboxed will support many more providers.

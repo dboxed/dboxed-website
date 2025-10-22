@@ -25,17 +25,19 @@ dboxed login --api-url=https://api.test.dboxed.io
 
 Then follow the instructions printed on the console.
 
-You might notice the `--api-url` given to the command, which provides the test api URL of the Dboxed Cloud. This will
-later be removed when the production instance of Dboxed Cloud becomes available.
+<Callout type="info">
+    You might notice the `--api-url` given to the command, which provides the test api URL of the Dboxed Cloud. This will
+    later be removed when the production instance of Dboxed Cloud becomes available.
+</Callout>
 
 If you want to use your self-hosted Dboxed instance, then you will need to provide the URL to your private instance
 instead.
 
 ## Create box
 
-A [box](/docs/concepts/boxes) is what defines the workloads that you want to run on a machine. A box can be part of
-a [dboxed network](/docs/concepts/networks), but it doesn't have to. For the simplicity of this guide, we will start
-without a network. A box might also have [dboxed volumes](/docs/concepts/volumes) attached, which we will also leave
+A [box](concepts/boxes) is what defines the workloads that you want to run on a machine. A box can be part of
+a [dboxed network](concepts/networks), but it doesn't have to. For the simplicity of this guide, we will start
+without a network. A box might also have [dboxed volumes](concepts/volumes) attached, which we will also leave
 out for now.
 
 The actual workloads inside a box are defined via [Docker Compose](https://docs.docker.com/compose/) files. First, create
@@ -51,6 +53,9 @@ services:
   localtunnel:
     image: node:25-alpine
     entrypoint: ["sh", "-c"]
+    depends_on:
+      whoami:
+        condition: service_started
     command:
       - |
         apk add curl socat
@@ -67,10 +72,10 @@ services:
         while true; do echo "Hello, current time is $(date)"; sleep 5; done
 ```
 
-Now create [box](/docs/concepts/boxes) that will later be run on your server. Replace the docker-compose.yaml path appropriately.
+Now create [box](concepts/boxes) that will later be run on your server. Replace the docker-compose.yaml path appropriately.
 
 ```shell
-dboxed box create --name quickstart --compose-file quickstart=/path/to/docker-compose.yaml
+dboxed box create --name quickstart --compose-file /path/to/docker-compose.yaml
 ```
 
 ## Create a box token
@@ -85,7 +90,7 @@ This command will create and print the secret token. You will need this token in
 
 ## Get a machine
 
-A [machine](/docs/concepts/machine) is anything that runs a recent Linux Kernel with a working internet connection.
+A [machine](concepts/machine) is anything that runs a recent Linux Kernel with a working internet connection.
 This means, you could now re-use one of your existing servers (bare-metal, VPC, cloud servers, Raspberry Pi, ...)
 or create a server in one of your preferred cloud providers. If you have such a machine, or can provision one, connect
 to it via ssh and continue the quick-start guide on it.
@@ -117,7 +122,7 @@ replacing the `<box-token>` placeholder with the token you generate before.
 dboxed sandbox run quickstart --api-url=https://api.test.dboxed.io --api-token=<box-token>
 ```
 
-This will now start a [sandbox](/docs/concepts/sandbox) that executes the docker compose workloads. The sandbox
+This will now start a [sandbox](concepts/sandbox) that executes the docker compose workloads. The sandbox
 contains everything that is needed to run the workloads, including Docker itself.
 
 ## Access the box

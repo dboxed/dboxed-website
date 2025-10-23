@@ -40,7 +40,7 @@ export const metadata = {
 }
 
 const banner = <Banner dismissible={false}>
-    👷Please note that Dboxed is in a very early stage, including the documentation. Things are being built right now! 👷 Follow <a href="https://twitter.com/codablock" target="_blank" rel="noopener noreferrer" className="underline font-semibold">@codablock</a> on X for updates!
+    👷Please note that Dboxed is in a very early stage, including the documentation. Things are being built right now! 👷 Follow <a href="https://x.com/codablock" target="_blank" rel="noopener noreferrer" className="underline font-semibold">@codablock</a> on X for updates!
 </Banner>
 
 const navbar = (
@@ -54,7 +54,7 @@ const navbar = (
         projectLink="https://github.com/dboxed/dboxed"
     >
         <a
-            href="https://twitter.com/dboxed_io"
+            href="https://x.com/dboxed_io"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors"

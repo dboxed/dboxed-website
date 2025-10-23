@@ -28,7 +28,7 @@ export default function FooterContent() {
           </button>
           <div className="flex items-center gap-3 ml-2">
             <Link
-              href="https://twitter.com/dboxed_io"
+              href="https://x.com/dboxed_io"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-500 hover:text-gray-900 transition-colors"

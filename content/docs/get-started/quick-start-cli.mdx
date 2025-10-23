@@ -43,34 +43,9 @@ out for now.
 The actual workloads inside a box are defined via [Docker Compose](https://docs.docker.com/compose/) files. First, create
 this file:
 
-```yaml filename="docker-compose.yaml"
-name: quickstart
-services:
-  whoami:
-    image: traefik/whoami
-    command:
-      - --name=iamdboxed
-  localtunnel:
-    image: node:25-alpine
-    entrypoint: ["sh", "-c"]
-    depends_on:
-      whoami:
-        condition: service_started
-    command:
-      - |
-        apk add curl socat
-        npm install -g localtunnel
-        TUNNEL_PASSWORD=$(curl https://loca.lt/mytunnelpassword)
-        echo "Your tunnel password is: $$TUNNEL_PASSWORD"
-        socat TCP-LISTEN:8080,reuseaddr,fork TCP:whoami:80 &
-        lt --port 8080
-  hello-log:
-    image: alpine
-    entrypoint: ["sh", "-c"]
-    command:
-      - |
-        while true; do echo "Hello, current time is $(date)"; sleep 5; done
-```
+import DockerComposeFile from '../example-files/docker-compose.mdx';
+
+<DockerComposeFile/>
 
 Now create [box](concepts/boxes) that will later be run on your server. Replace the docker-compose.yaml path appropriately.
 

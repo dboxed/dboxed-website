@@ -1,5 +1,5 @@
 import {Layout, Navbar, Footer} from 'nextra-theme-docs'
-import {Head} from 'nextra/components'
+import { Banner, Head } from 'nextra/components'
 import {getPageMap} from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 
@@ -38,10 +38,18 @@ export const metadata = {
     },
 }
 
-// const banner = <Banner storageKey="some-key">This template was created with 🩸 and 💦 by <Link href="https://github.com/phucbm">PHUCBM</Link> 🐧</Banner>
+const banner = <Banner dismissible={false}>
+    👷Please note that Dboxed is in a very early stage, including the documentation. Things are being built right now! 👷 Follow <a href="https://twitter.com/codablock" target="_blank" rel="noopener noreferrer" className="underline font-semibold">@codablock</a> on X for updates!
+</Banner>
+
 const navbar = (
     <Navbar
-        logo={<img src="/images/general/icon.svg" alt="Logo" width={48} height={20}/>}
+        logo={
+            <div className="flex items-center gap-2">
+                <img src="/images/general/icon.svg" alt="Logo" width={48} height={48}/>
+                <span className="font-bold text-4xl">Dboxed</span>
+            </div>
+        }
         projectLink="https://github.com/dboxed/dboxed"
     />
 )
@@ -64,7 +72,7 @@ export default async function RootLayout({children}) {
         </Head>
         <body>
         <Layout
-            // banner={banner}
+            banner={banner}
             navbar={navbar}
             pageMap={await getPageMap()}
             docsRepositoryBase="https://github.com/dboxed/dboxed-website/tree/main"

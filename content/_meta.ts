@@ -10,6 +10,16 @@ export default {
       toc: false,
     },
   },
+  imprint: {
+    title: "Imprint",
+    type: "page",
+    display: "hidden",
+  },
+  privacy: {
+    title: "Data Privacy",
+    type: "page",
+    display: "hidden",
+  },
   docs: {
     title: "Docs",
     type: "page",

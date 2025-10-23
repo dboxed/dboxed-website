@@ -6,6 +6,7 @@ import 'nextra-theme-docs/style.css'
 import "./globals.css"
 import { Suspense } from "react";
 import { MatomoAnalytics } from "@/app/mtmo";
+import CookieConsentComponent from "@/components/cookie-consent/CookieConsent";
 
 export const metadata = {
     icons: {
@@ -75,6 +76,7 @@ export default async function RootLayout({children}) {
         <Suspense fallback={null}>
           <MatomoAnalytics />
         </Suspense>
+        <CookieConsentComponent/>
         </body>
         </html>
     )

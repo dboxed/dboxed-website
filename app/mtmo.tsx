@@ -25,5 +25,13 @@ export function MatomoAnalytics() {
     });
   }, [pathname, searchParams]);
 
+  useEffect(() => {
+    push(['requireCookieConsent']);
+  }, []);
+
   return null
+}
+
+export function setMatomoConsent(tracking: boolean, cookie: boolean) {
+  push(cookie ? ['setCookieConsentGiven'] : ['forgetCookieConsentGiven'])
 }

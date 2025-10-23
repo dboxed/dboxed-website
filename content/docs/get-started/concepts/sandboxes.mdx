@@ -1,0 +1,26 @@
+# Sandboxes
+
+A sandbox is the containerized environment that runs on a [machine](machines) and executed the workloads defines by the [box](boxes).
+
+## Technology
+
+Sandboxes are created and run with the help of [libcontainer](https://github.com/opencontainers/runc/tree/main/libcontainer),
+which is also internally used by [runc](https://github.com/opencontainers/runc), [containerd](https://containerd.io/) and
+[Docker](https://www.docker.com/) to run containers.
+
+Due to the nature of libcontainer and [Golang](https://go.dev/), dboxed is able to create and run containers without
+any OS level dependencies. This means, that you do not need to pre-install Docker or any other container runtime.
+
+This also means that dboxed does not need to deeply integrate into your OS. It only needs to add itself as an automatically
+starting service.
+
+All this ensures that dboxed can run boxes on any Linux machine with a recent Kernel and internet connectivity.
+
+## Content
+
+A sandbox runs a minimalistic Linux distribution based on [Alpine Linux](https://www.alpinelinux.org/). It uses a
+lightweight init system ([s6](https://skarnet.org/software/s6-linux-init/)) to run Docker and some dboxed services.
+
+## Containers and Namespaces
+
+The sandbox is completely containerized and runs encapsulated from the host system.

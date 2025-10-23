@@ -1,4 +1,4 @@
-import {Footer, Layout, Navbar} from 'nextra-theme-docs'
+import {Layout, Navbar, Footer} from 'nextra-theme-docs'
 import {Head} from 'nextra/components'
 import {getPageMap} from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
@@ -7,6 +7,7 @@ import "./globals.css"
 import { Suspense } from "react";
 import { MatomoAnalytics } from "@/app/mtmo";
 import CookieConsentComponent from "@/components/cookie-consent/CookieConsent";
+import FooterContent from "@/app/FooterContent";
 
 export const metadata = {
     icons: {
@@ -44,7 +45,6 @@ const navbar = (
         projectLink="https://github.com/dboxed/dboxed"
     />
 )
-const footer = <Footer>codablock {new Date().getFullYear()} © Dboxed.</Footer>
 
 export default async function RootLayout({children}) {
     return (
@@ -68,10 +68,13 @@ export default async function RootLayout({children}) {
             navbar={navbar}
             pageMap={await getPageMap()}
             docsRepositoryBase="https://github.com/dboxed/dboxed-website/tree/main"
-            footer={footer}
+            //footer={<Footer/>}
             // ... Your additional layout options
         >
             {children}
+            <Footer>
+                <FooterContent/>
+            </Footer>
         </Layout>
         <Suspense fallback={null}>
           <MatomoAnalytics />

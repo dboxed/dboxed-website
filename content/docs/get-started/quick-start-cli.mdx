@@ -119,3 +119,39 @@ dboxed box logs quickstart
 It will show you a list of log files available, select the `quickstart-localtunnel-1` container log and open the URL
 shown in the logs. It should look like `https://random-sub-domain.loca.lt`. Open this URL and type in the password that
 is also shown in the log.
+
+## Stopping the box
+
+You can stop the box directly from the machine it runs, or request a shutdown remotely via the api/cli.
+
+To stop it on the machine that runs the box:
+
+```shell
+dboxed sandbox stop quickstart
+```
+
+Or from your local machine via:
+
+```shell
+dboxed box stop quickstart
+```
+
+<Callout type="warning">
+    Please note that stopping a sandbox does not remove it from the machine. You're still left with the filesystem contents
+    of the sandbox. Please read the next chapter for cleanup.
+</Callout>
+
+
+## Cleanup
+
+To remove the box, run:
+
+```shell
+dboxed box rm quickstart
+```
+
+To remove the sandbox from the machine, run this on the machine:
+
+```shell
+dboxed sandbox rm quickstart
+```

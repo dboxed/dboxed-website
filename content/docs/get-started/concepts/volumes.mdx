@@ -1,3 +1,36 @@
 # Volumes
 
 Dboxed implements a persistent volume mechanism that is fully independent of cloud providers.
+
+When attached to a running box, the volumes are periodically backed up in an incremental fashion. When the sandbox is stopped,
+a final backup is performed. When the box is then started again, even when this is on another machine, the volume gets
+restored again.
+
+This requires proper and graceful shutdown of [sandboxes](sandboxes), as the final incremental backup is needed to
+prevent data loss. This means that it won't be appropriate for all kinds of workloads, but it is a good basis for most.
+
+[Future](#future-use-of-cloud-based-volumess) versions of Dboxed will reduce the risk of data-loss even further.
+
+## Tooling used
+
+Dboxed currently uses lvm2 volumes and lvm2 snapshots under the hood to ensure that backed-up data is always
+crash consistent. This means, that it also works with workloads (e.g. databases), the same way cloud-based volumes
+(e.g. [AWS EBS](https://aws.amazon.com/ebs/)) are able to create crash consistent block level snapshots.
+
+[rustic](https://rustic.cli.rs/) is used to create incremental backups of the snapshots on a S3 provider. Other tools
+might be supported in the future, as long as they support lock-less pruning of deleted data.
+
+## Future use of cloud-based volumes
+
+Dboxed will leverage cloud-based volumes in the future, but only as a way to optimize for very specific situations.
+They will be used as the backing store for the mentioned lvm2+snapshot+rustic solution, with the advantage that loss of
+machines won't cause the loss of the most recent data. Instead of restoring from the latest snapshot, Dboxed can then
+re-attach the cloud-based volume to the new machine and continue where it stopped.
+
+This will also allow moving volumes faster when boxes need to be migrated to other machines.
+
+## Ceph
+
+Future versions of Dboxed will also bring native [Ceph](https://ceph.com/) support, allowing you to easily run boxes that
+act as OSDs. You will then be able to use Ceph Block Devices as backing store for Dboxed volumes, allowing it to work on
+bare-metal with all the advantages you'd usually only have on a cloud provider.

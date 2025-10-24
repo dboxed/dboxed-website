@@ -48,7 +48,7 @@ const navbar = (
         logo={
             <div className="flex items-center gap-2">
                 <img src="/images/general/icon.svg" alt="Logo" width={48} height={48}/>
-                <span className="font-bold text-4xl">Dboxed</span>
+                <span className="hidden sm:inline font-bold text-4xl">Dboxed</span>
             </div>
         }
         projectLink="https://github.com/dboxed/dboxed"

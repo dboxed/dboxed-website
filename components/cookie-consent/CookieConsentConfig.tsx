@@ -63,10 +63,6 @@ const pluginConfig: CookieConsentConfig = {
           acceptNecessaryBtn: 'Reject all',
           showPreferencesBtn: 'Manage preferences',
           //closeIconLabel: 'Close',
-          footer: `
-            <a href="/privacy">Privacy Policy</a>
-            <a href="/imprint">Imprint</a>
-          `,
         },
         preferencesModal: {
           title: 'Cookie preferences',

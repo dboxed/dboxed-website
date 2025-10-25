@@ -1,0 +1,47 @@
+import {Callout} from "nextra/components";
+
+# Netbird
+
+Dboxed supports [Netbird](https://netbird.io) as provider for P2P VPN based networks.
+
+You can use the Cloud version of Netbird, or use your own [self-hosted](https://docs.netbird.io/how-to/installation)
+instance.
+
+<Callout type="info">
+    Future versions of Dboxed will allow you to use an integrated instance of Netbird, removing the need to provide
+    API keys.
+</Callout>
+
+Netbird Providers in dboxed can be created via the CLI or via the Web UI.
+
+## Create a Netbird API Token
+
+The first thing you will need to use Netbird networks is to create a service user and access token in Netbird. Please
+follow the official Netbird documentation found [here](https://docs.netbird.io/how-to/access-netbird-public-api).
+
+## Creating Netbird Network (CLI)
+
+You can create a Netbird network via the dboxed CLI:
+
+```shell
+dboxed network create my-network --type netbird --netbird-access-token=<access-token>
+```
+
+Replace `<access-token>` with the access token you created before.
+
+After creation, you can verify the existence of the new network via:
+
+```shell
+dboxed network ls
+```
+
+## Creating Netbird Network (Web UI)
+
+You can also create a network via the Web UI. Simply navigate to the Networks list (via the Sidebar on the left) and
+click on `Create Network`.
+
+Enter a unique name for the network, select `Netbird` as network type and fill in the API Access Token. When everthing
+is complete, click `Create`.
+
+You will then be able to see the new network in the network list. You can click on `View Details`, which will bring you
+to the network details page. The details page allows you to view and edit the network. It also allows you to delete it.

@@ -1,3 +1,7 @@
+---
+asIndexPage: true
+---
+
 # Boxes
 
 A box is what defines a workload. It also specifies the [network](networks) it is attached to and
@@ -7,14 +11,6 @@ One or more boxes can be run on a [machine](machines). Boxes can also be moved b
 effort, as dboxed will also move [dboxed volumes](volumes) to the new machine. The same applies to networking when
 moving boxes, which is possible due to the P2P nature of dboxed networks.
 
-## Docker Compose
-
-Boxes define their workloads via [Docker Compose](https://docs.docker.com/compose/) projects. All features of
-standard Docker Compose are supported.
-
-In addition, dboxed adds a new volume type named `dboxed`, which can be used to access attached dboxed volumes. An
-example of this can be found in the [dboxed guide](../../guide).
-
 ## Running a box
 
-A box is run on a [machine](machines), inside a self-contained [sandbox](sandboxes). Follow the mentioned links for details.
+A box is run on a [machine](machines), inside a self-contained [sandbox](/docs/boxes/sandboxes). Follow the mentioned links for details.

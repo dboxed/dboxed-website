@@ -1,3 +1,7 @@
+---
+asIndexPage: true
+---
+
 # Volumes
 
 Dboxed implements a persistent volume mechanism that is fully independent of cloud providers.
@@ -6,10 +10,10 @@ When attached to a running box, the volumes are periodically backed up in an inc
 a final backup is performed. When the box is then started again, even when this is on another machine, the volume gets
 restored again.
 
-This requires proper and graceful shutdown of [sandboxes](sandboxes), as the final incremental backup is needed to
+This requires proper and graceful shutdown of [sandboxes](/docs/boxes/sandboxes), as the final incremental backup is needed to
 prevent data loss. This means that it won't be appropriate for all kinds of workloads, but it is a good basis for most.
 
-[Future](#future-use-of-cloud-based-volumess) versions of Dboxed will reduce the risk of data-loss even further.
+[Future](#future-use-of-cloud-based-volumes) versions of Dboxed will reduce the risk of data-loss even further.
 
 ## Tooling used
 

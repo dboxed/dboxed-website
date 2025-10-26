@@ -1,0 +1,11 @@
+
+```yaml filename="docker-compose.yaml"
+name: example
+services:
+  hello-log:
+    image: alpine
+    entrypoint: ["sh", "-c"]
+    command:
+      - |
+        while true; do echo "Hello, current time is $(date)"; sleep 5; done
+```

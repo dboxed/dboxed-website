@@ -5,3 +5,39 @@ standard Docker Compose are supported.
 
 In addition, dboxed adds a new volume type named `dboxed`, which can be used to access attached dboxed volumes. An
 example of this can be found in the [volume example](/docs/volumes/example).
+
+## Creating boxes with a compose project
+
+To create a box with a docker compose project attached to it, pass `--compose-file` to the `dboxed box create` command.
+
+As an example, consider the following compose file:
+
+import DockerComposeFile from '../example-files/docker-compose-simple.mdx';
+
+<DockerComposeFile/>
+
+You can create a box with this compose file attached:
+
+```shell
+dboxed box create --name example --compose-file /path/to/docker-compose.yaml
+```
+
+The argument `--compose-file` can be specified multiple times, allowing you to add multiple compose projects to the new
+box.
+
+### Adding and removing compose projects
+
+You can also add a compose project to an already existing box. If the box is being run on a machine, the sandbox
+will start it immediately.
+
+To add the compose file from above to an existing box, run the following command:
+
+```shell
+dboxed box add-compose example  --compose-file docker-compose.yaml
+```
+
+The argument `--compose-file` can be specified multiple times, allowing you to add multiple compose projects to the
+box.
+
+You can also use the Web UI to add a compose project to a box. Simply navigate to the Boxes page, enter the box details
+and switch to the `Compose Projects` tab. You can add a project by clicking on `Add Project`.

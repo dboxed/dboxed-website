@@ -1,0 +1,30 @@
+import {Callout} from "nextra/components";
+
+# S3 Buckets
+
+Many volume providers use S3 as the underlying storage/backup mechanism. Rustic for example uses it to create periodic
+incremental backups.
+
+## Creating a S3 bucket
+
+For now, creating and providing S3 buckets is not in the scope of dboxed. This means, you will have to use an external
+S3 provider, like [AWS S3](https://aws.amazon.com/s3/) or [Hetzner's Object Storage](https://www.hetzner.com/storage/object-storage/).
+
+Please create a bucket in one of these (or any other compatible S3 provider) first and then setup access credentials
+(access key id and secret access key). You'll need these credentials to add the bucket to dboxed.
+
+<Callout type="info">
+    Future versions of dboxed will allow you to use an integrated S3 provider, allowing you to reuse your own storage.
+</Callout>
+
+## Adding a S3 bucket
+
+You can add a bucket via the CLI:
+
+```shell
+dboxed s3-bucket add --endpoint https://s3.amazonaws.com --bucket=<bucket-name> --access-key-id=<access-key> --secret-access-key=<access-key-id>
+```
+
+Please replace the bucket name and credentials appropriately.
+
+You can also use the Web UI to create a bucket by navigating the the `S3 Buckets` page and clicking on `Add Bucket`.

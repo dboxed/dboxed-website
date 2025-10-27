@@ -1,3 +1,5 @@
 export default {
-  "volume-providers": {},
+  "s3-buckets": {},
+  "lock-mount-attach": {},
+  "rustic-provider": {},
 }

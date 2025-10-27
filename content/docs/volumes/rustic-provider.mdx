@@ -1,0 +1,23 @@
+# Rustic Provider
+
+[Rustic](https://rustic.cli.rs/) is an incremental backup tool, inspired by [restic](https://restic.net/).
+
+Dboxed can use Rustic as the backbone for volumes. A volume backed by the Rustic Provider is incrementally backed up
+periodically. When the volume is released, a final backup is performed, allowing you to restore the volume on another
+machine.
+
+## S3 Storage
+
+Rustic needs a S3 bucket for storage of the incremental backups. Please add a S3 bucket first (see [here](/docs/volumes/s3-buckets)).
+
+## Creating a Rustic Provider
+
+To create a rustic provider, you can use the CLI:
+
+```shell
+dboxed volume-provider create test --s3-bucket=<s3-bucket> --type=rustic --rustic-password="<super-secret-password>"
+```
+
+Please replace the S3 bucket name and the rustic password appropriately.
+
+The rustic password is the password used for encryption of the incremental backups.

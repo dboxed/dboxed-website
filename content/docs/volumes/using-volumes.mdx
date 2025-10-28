@@ -1,0 +1,87 @@
+import {Callout} from "nextra/components";
+
+# Using volumes
+
+Volumes can be used by boxes, but can also be used in a stand-alone fashion without boxes being involved, meaning
+that you can mount a volume locally, perform modifications and release it again.
+
+<Callout type="info">
+    For now, volume mounting only works on Linux, but will also be supported on MacOS and potentially Windows in the future.
+</Callout>
+
+## Attaching to boxes
+
+Boxes can have volumes attached, which allows them to use the volumes in their [compose definitions](/docs/boxes/docker-compose).
+You can attach a volume via the CLI or via the Web UI.
+
+The CLI allows you to attach volumes at box creation time:
+
+```shell
+dboxed box create --name <box-name> --compose-file <compose-file>  --attach-volume <volume-name>
+```
+
+Or after a box has been created:
+
+```shell
+dboxed box attach-volume <box-name> --volume <volume-name>
+```
+
+Detaching can be achieved via:
+
+```shell
+dboxed box detach-volume <box-name> --volume <volume-name>
+```
+
+<Callout type="warning">
+    Please note that attaching/detaching of volumes to a running box causes restarts of the compose services.
+</Callout>
+
+## Using volumes in compose projects
+
+When a box is attached to a box, you can use it in your compose projects. Here is an example:
+
+import DockerComposeFile from '../example-files/docker-compose-volume.mdx';
+
+<DockerComposeFile/>
+
+## Running boxes with attached volumes
+
+When a box with attached volumes is run, dboxed will automatically lock, mount and serve the volumes. It will also properly
+release volumes on shutdown, causing the final incremental backup to happen.
+
+## Manually mounting a volume
+
+You can also mount a volume locally, by running the following CLI command:
+
+```shell
+dboxed volume-mount create <volume-name>
+```
+
+After this succeeds, you can access the volume data at the directory `/var/lib/dboxed/volumes/<mount-name>/mount`.
+`<mount-name>` needs to be replaced by the mount name, which can be found in the output of:
+
+```shell
+dboxed volume-mount ls
+```
+
+After mounting the volume, you can perform any modification to the data you like. When you're done with your modifications,
+run:
+
+```shell
+dboxed volume-mount release <volume-name>
+```
+
+This will perform an incremental backup, so that the next mount of the same volume has the updated data.
+
+As an alternative, you can `serve`, which will cause periodical incremental backups of the volume. For example run the
+following command in the background:
+
+```shell
+dboxed volume-mount serve <volume-name> --backup-interval=<interval>
+```
+
+`<interval>` must be given in golang's duration format, e.g. `1m` or `5m`.
+
+When you now modify the volume data, it will be backup up periodically.
+
+After stopping the `serve` command, it's still required to release the volume.

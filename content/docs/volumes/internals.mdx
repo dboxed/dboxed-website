@@ -1,0 +1,23 @@
+# Internals
+
+Dboxed volumes must be locked and mounted before they can be used. These are actions done internally by dboxed, but
+it is useful to understand these concepts to make debugging issues easier.
+
+## Locking
+Before a volume can be mounted, it must be locked. Locking prevents that other machines mount the same volume, which
+would cause multiple versions of the volume to diverge.
+
+Locking happens when you run `dboxed volume-mount create <volume-name>`. This is done automatically for attached volumes.
+
+## Mounting
+Mounting happens when you run the mentioned `volume-mount create` command and also when you run
+`dboxed volume-mount mount <volume-name>`. The mount point is always `/var/lib/dboxed/volumes/<mount-name>/mount`.
+
+Mounting requires multiple steps, including setup of a Linux loop device and lvm2 volumes. Dboxed uses lvm2 snapshots
+to ensure crash-level consistency of incremental backups. Without this, backups would basically always be inconsistent
+when workloads are actively writing to them while dboxed is backing them up.
+
+## Serving
+Serving a volume means that the volume is periodically and incrementally backed up. To do this, dboxed will always first
+create a snapshot of the current volume filesystem and then back up the snapshot. After each backup, the snapshot is
+released again.

@@ -1,0 +1,17 @@
+
+```yaml filename="docker-compose.yaml"
+name: example
+services:
+  db:
+    image: mysql:9.4.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: example-db
+      MYSQL_USER: example
+      MYSQL_PASSWORD: samepasswordasabove
+      MYSQL_RANDOM_ROOT_PASSWORD: differentstrongpassword
+    volumes:
+      - type: dboxed            # this special volume type marks it as a dboxed volume
+        source: example-volume  # this must be an attached dboxed volume
+        target: /var/lib/mysql
+```

@@ -2,7 +2,7 @@ import {Callout} from "nextra/components";
 
 # S3 Buckets
 
-Many volume providers use S3 as the underlying storage/backup mechanism. Rustic for example uses it to create periodic
+Many volume providers use S3 as the underlying storage/backup mechanism. The Rustic Provider, for example, uses it to create periodic
 incremental backups.
 
 ## Creating a S3 bucket
@@ -14,7 +14,7 @@ Please create a bucket in one of these (or any other compatible S3 provider) fir
 (access key id and secret access key). You'll need these credentials to add the bucket to dboxed.
 
 <Callout type="info">
-    Future versions of dboxed will allow you to use an integrated S3 provider, allowing you to reuse your own storage.
+    Future versions of dboxed will allow you to use an integrated S3 provider, allowing you to reuse your own storage on your own servers.
 </Callout>
 
 ## Adding a S3 bucket
@@ -27,4 +27,4 @@ dboxed s3-bucket add --endpoint https://s3.amazonaws.com --bucket=<bucket-name> 
 
 Please replace the bucket name and credentials appropriately.
 
-You can also use the Web UI to create a bucket by navigating the the `S3 Buckets` page and clicking on `Add Bucket`.
+You can also use the Web UI to create a bucket by navigating the `S3 Buckets` page and clicking on `Add Bucket`.

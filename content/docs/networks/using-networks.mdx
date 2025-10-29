@@ -1,0 +1,17 @@
+# Using Networks
+
+After creating a network, you can use it by attaching them to [Boxes](/docs/boxes).
+
+## Attaching to a new box
+
+Currently, networks can only be attached to newly created boxes. You can achieve this via the CLI:
+
+```shell
+dboxed box create --name <box-name> --network <network-name>
+```
+
+As an alternative, you can use the Web UI to create a box with an attached network. Simply select the network after
+clicking on `Create Box`.
+
+When this box is now started, it can communicate with any other box on the same network, no matter on which machine
+or where in the world it runs.

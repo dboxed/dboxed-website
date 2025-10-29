@@ -15,7 +15,7 @@ Rustic needs a S3 bucket for storage of the incremental backups. Please add a S3
 To create a rustic provider, you can use the CLI:
 
 ```shell
-dboxed volume-provider create test --s3-bucket=<s3-bucket> --type=rustic --rustic-password="<super-secret-password>"
+dboxed volume-provider create --name test --s3-bucket=<s3-bucket> --type=rustic --rustic-password="<super-secret-password>"
 ```
 
 Please replace the S3 bucket name and the rustic password appropriately.

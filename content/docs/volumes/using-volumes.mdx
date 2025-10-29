@@ -54,7 +54,7 @@ release volumes on shutdown, causing the final incremental backup to happen.
 You can also mount a volume locally, by running the following CLI command:
 
 ```shell
-dboxed volume-mount create <volume-name>
+dboxed volume-mount create --name <volume-name>
 ```
 
 After this succeeds, you can access the volume data at the directory `/var/lib/dboxed/volumes/<mount-name>/mount`.

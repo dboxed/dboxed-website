@@ -44,7 +44,7 @@ export default {
             loc: path,
             changefreq: config.changefreq,
             priority: config.priority,
-            lastmod: config.autoLastmod ? lastmod : undefined,
+            lastmod: (config.autoLastmod && lastmod) ? new Date(lastmod).toISOString() : undefined,
             alternateRefs: config.alternateRefs || [],
         }
     },

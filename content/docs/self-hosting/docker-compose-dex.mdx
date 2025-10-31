@@ -1,0 +1,36 @@
+# Docker Compose with Dex Identity Provider
+
+This guide will show you how-to self-host dboxed with [dex](https://dexidp.io/) as the Identity Provider.
+
+The strength of Dex is its simplicity, allowing you to fully configure it via a config file. It can also be configured
+to provide statically configured users, which is good enough for many homelab setups.
+
+## Requirements
+
+You'll need a few things for this guide:
+
+* A publicly reachable server (e.g., a Hetzner cloud server) with ports 80 and 443 open.
+* A public DNS entry pointing to the public IP of your server
+
+## Variables
+
+The configuration files in this guide use multiple variables. Create the following file and set appropriate values
+for each variable:
+
+import DboxedEnv from './files/dboxed.env.mdx';
+
+<DboxedEnv/>
+
+## Preparing configuration files
+
+Create the following 3 files:
+
+import DexConfig from './files/dex-config.yaml.mdx';
+import DockerComposeFile from './files/docker-compose.yaml.mdx';
+import DboxedServerConfig from './files/dboxed-config.yaml.mdx';
+
+<DexConfig/>
+
+<DboxedServerConfig/>
+
+<DockerComposeFile/>

@@ -1,0 +1,22 @@
+```yaml filename="dboxed-config.yaml"
+instanceName: dboxed-example
+
+db:
+  url: sqlite3:///data/db.sqlite
+  migrate: true
+
+auth:
+  oidc:
+    issuerUrl: "https://${DBOXED_HOSTNAME}/dex"
+    clientId: "dboxed"
+
+    adminUsers:
+      - username: "${ADMIN_EMAIL}"
+
+server:
+  listenAddress: "0.0.0.0:5000"
+  baseUrl: "https://${DBOXED_HOSTNAME}"
+
+defaultWorkspaceQuotas:
+  maxLogBytes: 100Mi
+```

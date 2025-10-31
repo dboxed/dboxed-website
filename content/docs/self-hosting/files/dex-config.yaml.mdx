@@ -1,0 +1,26 @@
+
+```yaml filename="dex-config.yaml"
+issuer: https://${DBOXED_HOSTNAME}/dex
+
+storage:
+  type: sqlite3
+  config:
+    file: /data/dex.db
+
+web:
+  http: 0.0.0.0:5556
+
+staticClients:
+  - id: dboxed
+    public: true
+    redirectURIs:
+      - 'https://${DBOXED_HOSTNAME}/'
+    name: 'dboxed'
+
+enablePasswordDB: true
+
+staticPasswords:
+  - email: "${ADMIN_EMAIL}"
+    hash: "${ADMIN_PASSWORD_HASH}"
+    username: "${ADMIN_USERNAME}"
+```

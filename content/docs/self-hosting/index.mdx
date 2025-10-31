@@ -1,3 +1,7 @@
+---
+asIndexPage: true
+---
+
 import {Callout} from "nextra/components";
 
 # Self Hosting
@@ -10,6 +14,11 @@ control.
     it for personal projects that can tolerate downtimes and even data loss.
 </Callout>
 
-<Callout type="warning">
-    Documentation for self-hosting will follow.
-</Callout>
+## Identity Providers
+
+Dboxed does not implement user management on its own, but instead fully relies on external identity providers.
+You can use any provider that id OIDC compliant.
+
+Guides for different IdPs will be provided in the future. For now, there is only one guide for [dex](/docs/self-hosting/docker-compose-dex.mdx)
+available.
+

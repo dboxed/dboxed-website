@@ -1,0 +1,159 @@
+```yaml filename="docker-compose.yaml"
+
+services:
+  configs:
+    image: alpine
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        apk add envsubst
+        for i in $$(ls /templates); do
+          echo $$i
+          cat /templates/$$i | envsubst > /configs/$$i
+        done
+    volumes:
+      - ./dex-config.yaml:/templates/dex-config.yaml
+      - ./dboxed-config.yaml:/templates/dboxed-config.yaml
+      - configs:/configs
+    env_file:
+      - ./.env
+
+  traefik:
+    image: "traefik:v3.5"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - dboxed
+    command:
+      - "--api.insecure=false"
+      - "--api.dashboard=false"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=dboxed"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "letsencrypt_data:/letsencrypt"
+
+  dex-init-volume:
+    image: alpine
+    command:
+      - sh
+      - -c
+      - |
+        chown 1001:1001 /data
+    volumes:
+      - dex_data:/data
+  dex:
+    image: dexidp/dex
+    restart: unless-stopped
+    depends_on:
+      - dex-init-volume
+      - configs
+    command:
+      - dex
+      - serve
+      - /configs/dex-config.yaml
+    networks:
+      - dboxed
+    volumes:
+      - dex_data:/data
+      - configs:/configs
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dex.rule=PathPrefix(`/dex`)"
+      - "traefik.http.routers.dex.entrypoints=websecure"
+      - "traefik.http.routers.dex.tls.certresolver=myresolver"
+      - "traefik.http.routers.dex.tls.domains[0].main=${DBOXED_HOSTNAME}"
+      - "traefik.http.services.dex.loadbalancer.server.port=5556"
+
+  dboxed-api:
+    image: ghcr.io/dboxed/dboxed:latest
+    restart: unless-stopped
+    networks:
+      - dboxed
+    depends_on:
+      - configs
+    command:
+      - server
+      - run
+      - api
+      - --config
+      - /configs/dboxed-config.yaml
+    volumes:
+      - dboxed_server_db:/data
+      - configs:/configs
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dboxed-api.rule=PathPrefix(`/v1`)"
+      - "traefik.http.routers.dboxed-api.entrypoints=websecure"
+      - "traefik.http.routers.dboxed-api.tls.certresolver=myresolver"
+      - "traefik.http.services.dboxed-api.loadbalancer.server.port=5000"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500m"
+        max-file: "2"
+
+  dboxed-reconcilers:
+    image: ghcr.io/dboxed/dboxed:latest
+    restart: unless-stopped
+    networks:
+      - dboxed
+    command:
+      - server
+      - run
+      - reconcilers
+      - --config
+      - /configs/dboxed-config.yaml
+    volumes:
+      - dboxed_server_db:/data
+      - configs:/configs
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500m"
+        max-file: "2"
+
+  dboxed-frontend:
+    image: ghcr.io/dboxed/dboxed-frontend:latest
+    restart: unless-stopped
+    networks:
+      - dboxed
+    environment:
+      - VITE_API_URL=https://${DBOXED_HOSTNAME}
+      - VITE_API_URL_PUBLIC=https://${DBOXED_HOSTNAME}
+      - VITE_OIDC_ISSUER_URL=https://${DBOXED_HOSTNAME}/dex
+      - VITE_OIDC_CLIENT_ID=dboxed
+      - VITE_OIDC_SCOPE=openid profile email offline_access
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dboxed-frontend.rule=!PathPrefix(`/v1`) && !PathPrefix(`/dex`)"
+      - "traefik.http.routers.dboxed-frontend.entrypoints=websecure"
+      - "traefik.http.routers.dboxed-frontend.tls.certresolver=myresolver"
+      - "traefik.http.services.dboxed-frontend.loadbalancer.server.port=80"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500m"
+        max-file: "2"
+
+networks:
+  dboxed:
+    name: dboxed
+
+volumes:
+  configs: {}
+  letsencrypt_data: {}
+  dex_data: {}
+  dboxed_server_db: {}
+```
